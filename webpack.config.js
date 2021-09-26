@@ -9,8 +9,9 @@ module.exports = {
     publicPath: '/',
   },
   devServer: {
-    hot: true,
+    hot: false, //disable for recoil
   },
+  devtool: 'inline-source-map',
   module: {
     rules: [
       {

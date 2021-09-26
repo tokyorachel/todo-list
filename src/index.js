@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { RecoilRoot } from 'recoil';
 
 import Tasks from '@/pages/Tasks';
 
@@ -10,10 +11,17 @@ class App extends React.Component {
   render() {
     return (
       <main className="page">
-        <Tasks />
+        <RecoilRoot>
+          <Tasks />
+        </RecoilRoot>
       </main>
     );
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);

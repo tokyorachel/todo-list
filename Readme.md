@@ -26,3 +26,7 @@ The time expectation for developement of this app was 1-2 hours. However, the de
 To do these accurately to the Figma and without relying heavily on 3rd party libraries, it would take considerably longer to do these accurate to the design. In a real world scenario, this would need to be communicated with all stakeholders, including the design team, so that decisions could be make about how to proceed.
 
 I have prioritised adhering to the time constraint. I have used native HTML elements where appropriate and focused on functionality in order to have a working prototype quickly.
+
+## State Management
+
+I decided to try the experimental library, [Recoil](https://recoiljs.org/), for this project.

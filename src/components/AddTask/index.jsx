@@ -2,25 +2,24 @@ import React from 'react';
 
 import './add-task.scss';
 
-const AddTask = () => {
+const AddTask = ({ update }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
     formData.append('completed', false);
-    const data = Object.fromEntries(formData.entries());
+    const entries = Object.fromEntries(formData.entries());
 
     fetch('http://localhost:3001/todos', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(entries),
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        //TODO: update state
+        update({ ...data, completed: data.completed === 'true' });
         form.reset();
       });
   };
