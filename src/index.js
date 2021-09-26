@@ -1,15 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import Tasks from '@/pages/Tasks';
+
 import 'normalize.css';
 import './scss/styles.scss';
 
 class App extends React.Component {
   render() {
     return (
-      <>
-        <h1>Hello World</h1>
-      </>
+      <main className="page">
+        <Tasks />
+      </main>
     );
   }
 }

@@ -1,0 +1,19 @@
+@use '@/scss/placeholders';
+@use '@/scss/variables';
+
+.filter {
+  border: none;
+  border-radius: variables.$border-container;
+  border-radius: 12px;
+  border-bottom: 0.25rem solid white;
+  border-left: 0.5rem solid white;
+  border-right: 0.5rem solid white;
+  border-top: 0.25rem solid white;
+  height: 2rem;
+  font-size: 0.875rem;
+  width: 6rem;
+
+  &:focus {
+    @extend %focus;
+  }
+}

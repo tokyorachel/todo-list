@@ -1,0 +1,13 @@
+@use '@/scss/variables';
+
+%task {
+  background-color: variables.$white;
+  border-radius: variables.$border-item;
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+}
+
+%focus {
+  box-shadow: 0 0 0 2px variables.$color-interactive;
+  outline: none;
+}

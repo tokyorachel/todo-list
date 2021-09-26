@@ -1,0 +1,22 @@
+@use '@/scss/placeholders';
+@use '@/scss/variables';
+
+.add-task {
+  input {
+    @extend %task;
+
+    border: none;
+    color: variables.$black;
+    margin: 0;
+    position: relative;
+    width: calc(100% - 2rem);
+
+    &::placeholder {
+      color: variables.$color-dimmed;
+    }
+
+    &:focus {
+      @extend %focus;
+    }
+  }
+}

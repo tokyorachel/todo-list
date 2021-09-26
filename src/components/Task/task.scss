@@ -1,0 +1,25 @@
+@use '@/scss/placeholders';
+@use '@/scss/variables';
+
+.task {
+  @extend %task;
+
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  input {
+    height: 1rem;
+    margin-right: 1rem;
+    vertical-align: middle;
+
+    &:focus {
+      @extend %focus;
+    }
+  }
+
+  label {
+    vertical-align: middle;
+  }
+}

@@ -1,6 +1,13 @@
+@use '@/scss/variables';
+
 body {
   font: 16px/1 sans-serif;
-  h1 {
-    color: orangered;
-  }
+}
+
+.page {
+  align-items: center;
+  background-color: variables.$color-background;
+  display: flex;
+  flex-direction: column;
+  padding: 3rem;
 }
