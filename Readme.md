@@ -16,7 +16,7 @@
 
 ## Notes on theming
 
-The time expectation for developement of this app was 1-2 hours. However, the designer created many custom elements that are not easily themable in a way that is reliably cross-browser compatible and where accessibility is equal to or better than using native html elements:
+The time expectation for development of this app was 1-2 hours. However, the designer created many custom elements that are not easily themable in a way that is reliably cross-browser compatible and where accessibility is equal to or better than using native html elements:
 
 - checkboxes
 - dropdown menu

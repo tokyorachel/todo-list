@@ -1,7 +1,7 @@
 {
-  "name": "nanameue",
+  "name": "TodoList",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple todo app using React and Recoil",
   "main": "index.js",
   "scripts": {
     "api": "npm run start --prefix node_modules/todos-json-server",
@@ -14,7 +14,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "UNLICENSED",
   "dependencies": {
     "normalize.css": "^8.0.1",
     "react": "^17.0.2",
