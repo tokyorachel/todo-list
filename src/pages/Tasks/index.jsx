@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+
+import {
+  tasksState,
+  filterState,
+  filteredTasksState,
+  tasksInfo,
+} from './store';
 
 import Filter from '@/components/Filter';
 import Progress from '@/components/Progress';
@@ -7,49 +14,6 @@ import TaskList from '@/components/TaskList';
 import AddTask from '@/components/AddTask';
 
 import styles from './tasks.scss';
-
-const tasksState = atom({
-  key: 'tasksState',
-  default: [],
-});
-
-export { tasksState };
-
-const filterState = atom({
-  key: 'tasksFilterState',
-  default: 'all',
-});
-
-const filteredTasksState = selector({
-  key: 'filteredTasksState',
-  get: ({ get }) => {
-    const filter = get(filterState);
-    const list = get(tasksState);
-
-    switch (filter) {
-      case 'completed':
-        return list.filter((item) => item.completed);
-      case 'incomplete':
-        return list.filter((item) => !item.completed);
-      default:
-        return list;
-    }
-  },
-});
-
-const tasksInfo = selector({
-  key: 'tasksInfo',
-  get: ({ get }) => {
-    const list = get(tasksState);
-    const total = list.length;
-    const completed = list.filter((task) => task.completed).length;
-
-    return {
-      total,
-      completed,
-    };
-  },
-});
 
 const replaceItemAtIndex = (arr, index, newValue) => {
   return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
@@ -72,6 +36,56 @@ const Tasks = () => {
       });
   }, []);
 
+  const constructQuery = ({ action, id, payload }) => {
+    switch (action) {
+      case 'DELETE':
+        return {
+          endpoint: `http://localhost:3001/todos/${id}`,
+          method: 'DELETE',
+          payload: { id },
+          callback: remove,
+          id,
+        };
+      case 'UPDATE':
+        return {
+          endpoint: `http://localhost:3001/todos/${id}`,
+          method: 'PATCH',
+          payload: payload,
+          callback: update,
+        };
+      default:
+        return {
+          endpoint: `http://localhost:3001/todos`,
+          method: 'POST',
+          payload: payload,
+          callback: update,
+        };
+    }
+  };
+
+  const dispatch = ({ action, id = null, payload = null }) => {
+    const queryParams = constructQuery({ id, action, payload });
+    updateTask(queryParams);
+  };
+
+  const updateTask = ({ endpoint, method, payload, callback }) => {
+    fetch(endpoint, {
+      method: method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.hasOwnProperty('id')) {
+          callback({ ...data, completed: data.completed === true });
+        } else {
+          callback(payload.id);
+        }
+      });
+  };
+
   const updateFilter = ({ target: { value } }) => {
     setFilter(value);
   };
@@ -82,9 +96,18 @@ const Tasks = () => {
     });
   };
 
-  const updateTask = (task) => {
+  const update = (task) => {
     const index = tasks.findIndex((tasksItem) => tasksItem.id === task.id);
-    const newList = replaceItemAtIndex(tasks, index, task);
+    const newList =
+      index >= 0
+        ? [...tasks.slice(0, index), task, ...tasks.slice(index + 1)]
+        : [...tasks, task];
+    setTasks(newList);
+  };
+
+  const remove = (id) => {
+    const index = tasks.findIndex((tasksItem) => tasksItem.id === id);
+    const newList = [...tasks.slice(0, index), ...tasks.slice(index + 1)];
     setTasks(newList);
   };
 
@@ -95,8 +118,8 @@ const Tasks = () => {
         <h1>Tasks</h1>
         <Filter onChange={updateFilter} />
       </header>
-      <TaskList tasks={filtered} update={updateTask} />
-      <AddTask update={addTask} />
+      <TaskList tasks={filtered} update={dispatch} />
+      <AddTask update={dispatch} />
     </div>
   );
 };

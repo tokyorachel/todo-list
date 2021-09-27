@@ -1,32 +1,59 @@
 import React, { useState } from 'react';
-import { useRecoilState } from 'recoil';
 
 import ContextMenu from '@/components/ContextMenu';
 
 import styles from './task.scss';
 
 const Task = ({ id, desc, completed, update }) => {
-  const handleChange = (e) => {
-    fetch(`http://localhost:3001/todos/${id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ completed: !completed }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        update({ ...data, completed: data.completed === true });
-      });
+  const [isEditing, setIsEditing] = useState(false);
+  const [value, setValue] = useState(desc);
+
+  const handleChange = () => {
+    const action = 'UPDATE';
+    const payload = { completed: !completed };
+    update({ id, payload, action });
+  };
+
+  const handleSubmit = (value) => {
+    const action = 'UPDATE';
+    const payload = { title: value };
+    update({ id, payload, action });
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      e.target.blur();
+      handleSubmit(e.target.value);
+      setIsEditing(false);
+      setValue(e.target.value);
+    }
   };
 
   return (
     <li className="task">
-      <span>
-        <input type="checkbox" checked={completed} onChange={handleChange} />
-        <label>{desc}</label>
-      </span>
-      <ContextMenu id={id} />
+      {isEditing ? (
+        <input
+          autoFocus
+          aria-label="Edit task title"
+          className="task-edit"
+          type="text"
+          name="title"
+          onKeyDown={handleKeyPress}
+          defaultValue={value}
+        />
+      ) : (
+        <span>
+          <input
+            aria-label="Task completed"
+            type="checkbox"
+            checked={completed}
+            onChange={handleChange}
+          />
+          <p className={completed ? 'label completed' : 'label'}>{desc}</p>
+        </span>
+      )}
+      <ContextMenu id={id} update={update} toggleEdit={setIsEditing} />
     </li>
   );
 };

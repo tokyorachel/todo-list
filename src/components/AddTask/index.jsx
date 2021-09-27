@@ -5,23 +5,13 @@ import './add-task.scss';
 const AddTask = ({ update }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
+    const action = 'CREATE';
     const form = e.target;
     const formData = new FormData(form);
     formData.append('completed', false);
-    const entries = Object.fromEntries(formData.entries());
-
-    fetch('http://localhost:3001/todos', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(entries),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        update({ ...data, completed: data.completed === 'true' });
-        form.reset();
-      });
+    const payload = Object.fromEntries(formData.entries());
+    update({ payload, action });
+    form.reset();
   };
 
   return (

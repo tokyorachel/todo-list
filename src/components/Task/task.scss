@@ -19,7 +19,19 @@
     }
   }
 
-  label {
+  .task-edit {
+    border: none;
+    cursor: text;
+    width: 100%;
+  }
+
+  .label {
+    display: inline;
     vertical-align: middle;
+  }
+
+  .label.completed {
+    color: variables.$color-dimmed;
+    text-decoration: line-through;
   }
 }

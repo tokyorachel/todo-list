@@ -2,19 +2,22 @@ import React, { useState } from 'react';
 
 import './context-menu.scss';
 
-const ContextMenu = ({ id }) => {
+const ContextMenu = ({ id, update, toggleEdit }) => {
   const [expanded, setExpanded] = useState(false);
 
-  const handleTrigger = (e) => {
+  const handleTrigger = () => {
     setExpanded(!expanded);
   };
 
   const handleEdit = (e) => {
-    // TODO: id
+    setExpanded(!expanded);
+    toggleEdit((s) => !s);
   };
 
   const handleDelete = (e) => {
-    // TODO: id
+    setExpanded(!expanded);
+    const action = 'DELETE';
+    update({ id, action });
   };
 
   return (
