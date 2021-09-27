@@ -1,5 +1,7 @@
 # Todo / Task List Project
 
+![todo-optimized](https://user-images.githubusercontent.com/42755840/134940180-b0287306-cc0c-4bf4-998c-8288ce4c5aa0.gif)
+
 ## Running the project
 
 `nvm use` to manage node versions.
