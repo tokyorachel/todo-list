@@ -9,5 +9,9 @@ body {
   background-color: variables.$color-background;
   display: flex;
   flex-direction: column;
-  padding: 3rem;
+  padding: 1rem;
+
+  @media (min-width: 400px) {
+    padding: 3rem;
+  }
 }
